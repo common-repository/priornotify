@@ -1,0 +1,389 @@
+// VARIABLES
+// ----- colors -----
+$lightGreyColor: #F5F5F5;
+$accentColor: #2B9A2D;
+$blueColor: #03A3E7;
+$errorColor: #F44336;
+$lightColor: #ffffff;
+$greyColor: grey;
+$lightGreyColor2: rgba(0, 0, 0, 0.1);
+$greenDarkColor: #226f23;
+$greenLightColor: #86d487;
+$blackColor: #000000;
+
+// ----- other -----
+$primaryFontFamily: 'Roboto', sans-serif;
+
+
+// MIXINS
+//  ----- font styles -----
+@mixin fontStyle($family: false, $color: false, $size: false, $weight: false, $lineHeight: false) {
+	@if $family {
+		font-family: $family;
+	}
+	@if $color {
+		color: $color;
+	}
+	@if $size {
+		font-size: $size;
+	}
+	@if $weight {
+		font-weight: $weight;
+    }
+    @if $lineHeight {
+		line-height: $lineHeight;
+	}
+}
+
+// ---- transitions ----
+@mixin transition($time: false) {
+	@if $time {
+		-webkit-transition: all ease $time;
+        transition: all ease $time;
+	}
+}
+
+// STYLES
+// ----- GENERAL -----
+body{
+    background-color: $lightGreyColor;
+    font-family: $primaryFontFamily;
+}
+.btn-green{
+    @include fontStyle($size: 14px, $color: $lightColor, $weight: 500);
+    @include transition(0.5s);
+    background-color: $accentColor;
+    cursor: pointer;
+    padding: 10px 20px;
+    border: 3px solid $accentColor;
+    border-radius: 6px;
+    text-decoration: none;
+    text-transform: uppercase;
+    user-select: none;
+    letter-spacing: 1px;
+    margin: 5px;
+    &:hover {
+        color: $lightColor;
+        opacity: .6;
+    }
+}
+.btn-white{
+    @include fontStyle($size: 14px, $color: $blackColor, $weight: 500);
+    @include transition(0.5s);
+    background-color: $lightGreyColor;
+    cursor: pointer;
+    padding: 10px 30px;
+    border: 3px solid $blackColor;
+    border-radius: 6px;
+    text-decoration: none;
+    text-transform: uppercase;
+    user-select: none;
+    letter-spacing: 1px;
+    margin: 5px;
+    &:hover {
+        color: $lightGreyColor2;
+        opacity: .6;
+    }
+}
+.btn-blue{
+    @include fontStyle($size: 14px, $color: $lightColor, $weight: 500);
+    @include transition(0.5s);
+    background-color: $blueColor;
+    cursor: pointer;
+    padding: 10px 20px;
+    border: 3px solid $blueColor;
+    border-radius: 6px;
+    text-decoration: none;
+    text-transform: uppercase;
+    user-select: none;
+    letter-spacing: 1px;
+    margin: 5px;
+    &:hover {
+        color: $lightColor;
+        opacity: .6;
+    }
+}
+.error-message {
+    display: block;
+    @include fontStyle($color: $errorColor, $weight: 400);
+}
+
+.success-message {
+    @include fontStyle($color: $greenDarkColor, $weight: 400);
+    background: $greenLightColor;
+    padding: 10px 15px;
+}
+
+// ----- PriorNotify -----
+.priorNotify {
+    &__container {
+        display: flex;
+        flex-direction: column;
+        margin: 30px 40px 0 20px;
+    }
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+
+        &-auth {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+            .btn-green, .btn-blue {
+                display: inline-block;
+                height: 20px;
+            }
+        }
+    }
+    &__logo {
+        height: 50px;
+        margin-right: 20px;
+        &-wrapper {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+    }
+    &__block-title {
+        @include fontStyle($color: $accentColor, $weight: 400, $size: 24px, $lineHeight: 32px);
+    }
+    &__table {
+        flex-direction: column;
+        background-color: $lightColor;
+        widows: 95%;
+        margin: 0 auto;
+        border: 1px solid $lightGreyColor2;
+        border-radius: 3px;
+        cursor: default;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        
+        thead, tr, td, th{
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+        th{
+            font-weight: normal;
+            font-size: 18px;
+        }
+        td, th{
+            padding: 10px;
+            border-bottom: 1px solid $lightGreyColor2;
+        }
+        tbody tr:hover{
+            background: $lightGreyColor;
+        }
+        tr:last-child td{
+            border-bottom: none;
+        }
+        tr th, tr td{
+            width: 25%;
+            overflow: hidden;
+        }
+        thead{
+            color: $greyColor;
+            overflow: hidden;
+        }
+        thead th{
+            font-weight: 100;
+        }
+        & .siteKey{
+            text-overflow: ellipsis;
+            width: 70px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    }
+}
+
+
+// ----- Modal -----
+
+$modal-padding: 20px;
+$modal-border: 1px solid #e2e2e2;
+$modal-backdrop: rgba(0, 0, 0, 0.88);
+$modal-aniamtion-speed: .35s;
+
+.modal {
+    $this: modal;
+    
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 15px;
+    overflow: auto;
+    background-color: $modal-backdrop;
+    animation-duration: $modal-aniamtion-speed;
+    animation-fill-mode: both;
+    animation-name: fadeIn;
+    
+    &__dialog {
+        position: relative;
+        max-width: 500px;
+        padding: $modal-padding;
+        margin: auto;
+        border-radius: 4px;
+        background-color: #fff;
+    }
+    
+    &__close {
+        position: absolute;
+        top: $modal-padding;
+        right: $modal-padding;
+        padding: 0;
+        border: none;
+        color: #ccc;
+        background-color: transparent;
+        background-image: none;
+        
+        &:focus {
+            outline: 0;
+        }
+    }
+    
+    &__header {
+        border-bottom: $modal-border;
+    }
+    
+    &__title {
+        margin: 0 0 15px;
+    }
+    
+    &__content {
+        padding: 10px 0;
+        font-size: 13px;
+        line-height: 1.6;
+        color: #555;
+    }
+    
+    &__footer {
+        padding-top: $modal-padding;
+        border-top: $modal-border;
+        text-align: right;
+    }
+    
+    /* Modifiers */
+    &--fullscreen {
+        padding: 5px;
+        
+        .#{$this}__dialog {
+            width: 100%;
+            max-width: none;
+            height: 100%;   
+            border-radius: 0;
+        }
+    }
+    /* States */
+    &.is-#{$this}-active {
+        display: flex; 
+    }
+}
+
+/* Animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/*------------------------------------------------*/
+/* Unrelated styling, not for the typing indicator
+   Only using this for DEMO purposes  */
+/*------------------------------------------------*/
+
+.demo {
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    
+    &__card {
+        max-width: 350px;
+        margin: 30px auto;
+        padding: 20px;
+        border: 1px solid #e2e2e2;
+        background-color: #fff;
+        box-shadow: 0 2px 4px 0 fade(#000, 10%);
+        border-radius: 4px;
+        color: #444;
+    }
+    
+    &__title {
+        margin-top: 0;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e2e2e2;
+        font-size: 16px;
+    }
+    
+    &__btn {
+        display: inline-block;
+        width: 100%;
+        padding: 10px 15px;
+        border: 1px solid #333;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #333;
+        background-color: transparent;
+        transition: all .25s linear;
+        margin-bottom: 10px;
+        cursor: pointer;
+        
+        &:hover {
+            background-color: fade(#000, 10%);
+        }
+        
+        &:focus,
+        &:active {
+            outline: 0;
+        }
+        
+        &--secondary {
+            border: 1px solid #e2e2e2;
+        }
+    }
+}
+
+.priorNotify-container{
+    position: relative;
+}
+img{
+    margin: 0 auto;
+    cursor: pointer;
+}
+.priorNotify-container iframe{
+    position: absolute;
+    bottom: -100%;
+    z-index: 10000;
+    width: 500px;
+    box-shadow: 0 0 20px 5px;
+    background: white;
+    transition: all 0.5s;
+    height: 550px;
+    left: 75px;
+    display: none;
+}
+
+.woocommerce-additional-fields .priorNotify-container{
+    display: none;
+}
+
+.bold {
+    font-weight: 800;
+}
+
+.instruction {
+    margin-left: 40px;
+
+    p {
+        font-size: 16px;
+    }
+}

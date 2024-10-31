@@ -1,0 +1,10 @@
+general:
+    pathToCss: /assets/css/
+admin:
+    pageTitle: PriorNotify plugin
+    menuTitle: PriorNotify
+api:
+    baseUrl: https://login.priornotify.com
+    apiUrl: https://api.priornotify.com
+    tokenExpireAt: 72000
+    REDIRECT_STATUS: 302

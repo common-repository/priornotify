@@ -1,0 +1,84 @@
+<script>
+    function removeItem(sKey, sPath, sDomain) {
+        document.cookie = encodeURIComponent(sKey) + 
+            "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" + 
+            (sDomain ? "; domain=" + sDomain : "") + 
+            (sPath ? "; path=" + sPath : "");
+    }
+
+    var query = window.location.search.split('&');
+    if (query.length > 1) {
+        window.location = window.location.origin + window.location.pathname + query[0];
+    }
+
+    window.addEventListener('focus', focus);
+
+    function focus(event) {
+        var cookies = document.cookie.split('; ');
+        var isReload = cookies.some(cookie => {
+            var name = cookie.split('=')[0];
+            var value = cookie.split('=')[1];
+            return name === 'reload' && value === '1';
+        })
+
+        if (isReload) {
+            removeItem('reload');
+            window.location.reload();
+        }
+    }
+
+
+    var searchUrl = window.location.search;
+    var start = searchUrl.indexOf('token=');
+    var token = '';
+    if(start >= 0){
+        var last = searchUrl.indexOf('&', start) > 0 ? searchUrl.indexOf('&',start) : undefined;
+        token = searchUrl.substring(start, last ).replace('token=', '');
+    }
+    if (token) {
+    document.cookie = "priorNotifyToken=" + token;
+    window.location.replace(window.location.href.replace(`&priorNotifyToken=${token}`, ''));
+    }
+</script>
+<div class="priorNotify__container">
+    <div class="priorNotify__header">
+        <div class="priorNotify__logo-wrapper">
+            <img class="priorNotify__logo" src="{{pluginUrl}}/assets/images/logo.png" alt="PriorNotify">
+            <h1>{{admin.pageTitle}}</h1>
+        </div>
+        <div>
+        {% if not isUserLogged %}
+            <div class="priorNotify__header-auth">
+                <a class="btn-blue" target="_blank" href="{{api.baseUrl}}/register?redirect_uri={{site_url}}">Sign up</a>
+                <a class="btn-blue" target="_blank" href="{{api.baseUrl}}/connect-woocommerce?redirect_uri={{site_url | url_encode}}">Connect</a>
+            </div>
+        {% else %}
+            <div class="priorNotify__header-auth">
+                <a class="btn-white" href='{{site_url}}&logout=true'>Disconnect</a>
+                <a class="btn-green" href="javascript:void(0)">Connected</a>
+            </div>
+        {% endif %}
+        </div>
+    </div>
+    <div class="instruction">
+        <p class="bold">INSTRUCTIONS:</p>
+        
+        <p class="bold">A. SIGN UP button</p>
+        
+        <p>If you do not yet have a PriorNotify account, please press the SIGN UP button.</p>
+        
+        <p>Your first seven (7) days are free!</p>
+        
+        <p>A new browser tab will open to the 'Sign Up' page for the PriorNotify app.</p>
+        
+        <p class="bold">B. CONNECT button</p>
+        
+        <p>If you have a PriorNotify account, please press the CONNECT button.</p>
+        
+        <p>A new browser tab will open to the 'Log In' page for the PriorNotify app. You should enter your PriorNotify username and password in this page.</p>
+        
+        <p>Then, WooCommerce will ask for your authorization and approval to connect with your PriorNotify account. You should approve this request.</p>
+        
+        <p>That's it! You should then be connected with your PriorNotify account.</p>
+    </div>
+</div>
